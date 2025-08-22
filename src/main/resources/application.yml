@@ -13,7 +13,12 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+   #     dialect: org.hibernate.dialect.MySQLDialect
     show-sql: false
+    open-in-view: false # spring.jpa.open-in-view
+logging:
+  level:
+    root: WARN          # Configuração global (Warn é indicado para produção)
+    br.com.java: DEBUG  # Configurar o nivel de log para pacotes especificos (INFO é o padrão caso nao especifique)
 
 
