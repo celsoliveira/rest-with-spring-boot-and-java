@@ -1,6 +1,9 @@
 package br.com.java.services;
 
+import br.com.java.data.dto.PersonDTO;
 import br.com.java.exception.ResourceNotFoundException;
+import static br.com.java.mapper.ObjectMapper.parseObject;
+import static br.com.java.mapper.ObjectMapper.parseListObjects;
 import br.com.java.model.Person;
 import br.com.java.repository.PersonRepository;
 import org.slf4j.Logger;
@@ -20,40 +23,46 @@ public class PersonServices {
     private PersonRepository repository;
 
 
-    public Person findById(Long id){
-        logger.info("Finding one Person.");
+    public PersonDTO findById(Long id){
+        logger.info("Finding one PersonDTO.");
 
-        return repository.findById(id)
+        var entity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records foun for this ID."));
+
+        return parseObject(entity, PersonDTO.class);
+
         //mock
-       /* Person person = new Person();
-        person.setId(counter.incrementAndGet());
-        person.setFirstName("Leandro");
-        person.setLastName("Costa");
-        person.setAddress("Uberlandia - Minas Gerais - Brasil");
-        person.setGender("Male");*/
+       /* PersonDTO PersonDTO = new PersonDTO();
+        PersonDTO.setId(counter.incrementAndGet());
+        PersonDTO.setFirstName("Leandro");
+        PersonDTO.setLastName("Costa");
+        PersonDTO.setAddress("Uberlandia - Minas Gerais - Brasil");
+        PersonDTO.setGender("Male");*/
     }
 
-    public List<Person> findAll(){
+    public List<PersonDTO> findAll(){
         logger.info("Finding all People.");
 
-        return repository.findAll();
+        return parseListObjects(repository.findAll(), PersonDTO.class);
         /*
-        List<Person> persons = new ArrayList<>();
+        List<PersonDTO> PersonDTOs = new ArrayList<>();
         for(var i = 0; i < 8; i++){
-            Person person = MockPerson(i);
-            persons.add(person);
+            PersonDTO PersonDTO = MockPersonDTO(i);
+            PersonDTOs.add(PersonDTO);
         }
-        return persons;*/
+        return PersonDTOs;*/
     }
 
-    public Person create(Person person){
-        logger.info("Creating one Person.");
-        return repository.save(person);
+    public PersonDTO create(PersonDTO person){
+        logger.info("Creating one PersonDTO.");
+
+        var entity = parseObject(person, Person.class);
+
+        return parseObject(repository.save(entity), PersonDTO.class);
     }
 
-    public Person update(Person person){
-        logger.info("Updating one Person.");
+    public PersonDTO update(PersonDTO person){
+        logger.info("Updating one PersonDTO.");
 
         Person entity = repository.findById(person.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("No records foun for this ID."));
@@ -63,11 +72,11 @@ public class PersonServices {
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
 
-        return repository.save(entity);
+        return parseObject(repository.save(entity), PersonDTO.class);
     }
 
     public void delete(Long id){
-        logger.info("Deleting one Person.");
+        logger.info("Deleting one PersonDTO.");
 
         Person entity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records foun for this ID."));
@@ -76,15 +85,15 @@ public class PersonServices {
     }
 
     /*
-    private Person MockPerson(int i) {
-        Person person = new Person();
-        person.setId(counter.incrementAndGet());
-        person.setFirstName("FirstName " + i);
-        person.setLastName("LastName " + i);
-        person.setAddress("Some Address " + 1);
-        person.setGender("Male");
+    private PersonDTO MockPersonDTO(int i) {
+        PersonDTO PersonDTO = new PersonDTO();
+        PersonDTO.setId(counter.incrementAndGet());
+        PersonDTO.setFirstName("FirstName " + i);
+        PersonDTO.setLastName("LastName " + i);
+        PersonDTO.setAddress("Some Address " + 1);
+        PersonDTO.setGender("Male");
 
-        return person;
+        return PersonDTO;
     }*/
 
 }
