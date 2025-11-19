@@ -20,5 +20,10 @@ logging:
   level:
     root: WARN          # Configuração global (Warn é indicado para produção)
     br.com.java: DEBUG  # Configurar o nivel de log para pacotes especificos (INFO é o padrão caso nao especifique)
+spring-doc:
+  paths-to-match: /api/**/v1/**
+  swagger-ui:
+    use-root-path: true
+
 
 
