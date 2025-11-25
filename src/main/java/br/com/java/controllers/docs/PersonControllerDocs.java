@@ -1,32 +1,19 @@
-package br.com.java.controllers;
+package br.com.java.controllers.docs;
 
-import br.com.java.data.dto.PersonDTO;
-import br.com.java.services.PersonServices;
+import br.com.java.data.dto.BookDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/person/v1")
-@Tag(name = "People", description = "Endpoints for Managing People")
-public class PersonController {
+public interface PersonControllerDocs {
 
-    // http://localhost:8080/swagger-ui/index.html
-
-    @Autowired
-    private PersonServices service;
-
-    @GetMapping(value = "/{id}",
-            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE }
-    )
     @Operation(summary = "Finds a Person",
             description = "Find a specific person by your ID",
             tags = {"People"},
@@ -34,7 +21,7 @@ public class PersonController {
                     @ApiResponse(
                             description = "Success",
                             responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = PersonDTO.class))
+                            content = @Content(schema = @Schema(implementation = BookDTO.class))
                     ),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -43,49 +30,30 @@ public class PersonController {
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
             }
     )
-    public PersonDTO findById(@PathVariable("id") Long id){
-        var person = service.findById(id);
+    BookDTO findById(@PathVariable("id") Long id);
 
-        //person.setBirthDay(new Date());
-        //person.setPhoneNumber("+55 (34) 98765-4321");
-        //person.setPhoneNumber("");  // não seria renderizado se estiver vazio
-        //person.setLastName(null);   // não seria renderizado se estiver nulo
-        //person.setSensitiveData("Foo Bar");
-        return person;
-    }
-
-    @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE,
-                             MediaType.APPLICATION_XML_VALUE,
-                             MediaType.APPLICATION_YAML_VALUE })
     @Operation(summary = "Find All People",
-               description = "Find All People",
-               tags = {"People"},
+            description = "Find All People",
+            tags = {"People"},
             responses = {
-               @ApiResponse(
-                       description = "Success",
-                       responseCode = "200",
-                       content = {
-                               @Content(
-                                       mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                       array = @ArraySchema(schema = @Schema(implementation = PersonDTO.class))
-                               )
-                       }),
-               @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
-               @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
-               @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
-               @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
-               @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200",
+                            content = {
+                                    @Content(
+                                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                            array = @ArraySchema(schema = @Schema(implementation = BookDTO.class))
+                                    )
+                            }),
+                    @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
             }
     )
-    public List<PersonDTO> findAll(){
-        return service.findAll();
-    }
+    List<BookDTO> findAll();
 
-
-    @PostMapping(
-            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE },
-            consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE }
-    )
     @Operation(summary = "Creates a Person",
             description = "Create a specific person by your ID",
             tags = {"People"},
@@ -93,7 +61,7 @@ public class PersonController {
                     @ApiResponse(
                             description = "Success",
                             responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = PersonDTO.class))
+                            content = @Content(schema = @Schema(implementation = BookDTO.class))
                     ),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -102,15 +70,8 @@ public class PersonController {
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
             }
     )
-    public PersonDTO create(@RequestBody PersonDTO person){
-        return service.create(person);
-    }
+    BookDTO create(@RequestBody BookDTO person);
 
-
-    @PutMapping(
-            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE },
-            consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE }
-    )
     @Operation(summary = "Updates a Person",
             description = "Update a specific person by your ID",
             tags = {"People"},
@@ -118,7 +79,7 @@ public class PersonController {
                     @ApiResponse(
                             description = "Success",
                             responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = PersonDTO.class))
+                            content = @Content(schema = @Schema(implementation = BookDTO.class))
                     ),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -127,11 +88,8 @@ public class PersonController {
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
             }
     )
-    public PersonDTO update(@RequestBody PersonDTO person){
-        return service.update(person);
-    }
+    BookDTO update(@RequestBody BookDTO person);
 
-    @DeleteMapping(value = "/{id}")
     @Operation(summary = "Deletes a Person",
             description = "Delete a specific person by your ID",
             tags = {"People"},
@@ -139,7 +97,7 @@ public class PersonController {
                     @ApiResponse(
                             description = "Success",
                             responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = PersonDTO.class))
+                            content = @Content(schema = @Schema(implementation = BookDTO.class))
                     ),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -148,11 +106,5 @@ public class PersonController {
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
             }
     )
-    public ResponseEntity<?> delete(@PathVariable("id") Long id){
-        service.delete(id);
-        return ResponseEntity.noContent().build(); // status code 204
-    }
-
-
-
+    ResponseEntity<?> delete(@PathVariable("id") Long id);
 }

@@ -4,17 +4,10 @@ package br.com.java.data.dto;
 //import com.fasterxml.jackson.annotation.JsonProperty;
 //import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import br.com.java.serializer.GenderSerializer;
-import com.fasterxml.jackson.annotation.JsonFilter;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 // @JsonPropertyOrder({"id", "address", "first_name", "last_name", "gender"})
 //@JsonFilter("PersonFilter")
