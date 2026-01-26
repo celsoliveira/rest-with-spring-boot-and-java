@@ -1,4 +1,5 @@
 package br.com.java.unittests.mapper;
+
 import static br.com.java.mapper.ObjectMapper.parseListObjects;
 import static br.com.java.mapper.ObjectMapper.parseObject;
 import static org.junit.jupiter.api.Assertions.assertEquals;
